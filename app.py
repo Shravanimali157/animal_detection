@@ -9,8 +9,8 @@ import tensorflow as tf
 interpreter = tf.lite.Interpreter(model_path="animal_final.tflite")
 interpreter.allocate_tensors()
 
-input_details=interpreter.get_input_datails()
-output_details=interpreter.get_output_datails()
+input_details=interpreter.get_input_details()
+output_details=interpreter.get_output_details()
 
 
 
@@ -146,7 +146,7 @@ if page == "🐾 Animal Detection":
         interpreter.set_tensor(input_details[0]['index'],img_array)
         interpreter.invoke()
         
-        prediction=interpreter.get_tensor(output_datails[0]['index'])
+        prediction=interpreter.get_tensor(output_details[0]['index'])
 
         class_names = ['Cat', 'Dog','Wild Animal']
 
