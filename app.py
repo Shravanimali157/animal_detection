@@ -121,7 +121,7 @@ if page == "🐾 Animal Detection":
 
     st.write("                                                                                                                                                  ")
 
-    model=load_model("animal_final.keras")
+    model=load_model("animal_final.tflite")
 
     uploaded_file=st.file_uploader("Upload an image to identify whether it is a **Cat**, **Dog**, or **Wild Animal**.",type=['jpg','jepg','png'])
 
