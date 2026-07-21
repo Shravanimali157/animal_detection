@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 
 #st.title("Animal Detection ")
-
+model=load_model("animal_final.tflite")
 
 st.set_page_config(
     page_title="Animal Recognition",
@@ -121,7 +121,7 @@ if page == "🐾 Animal Detection":
 
     st.write("                                                                                                                                                  ")
 
-    model=load_model("animal_final.tflite")
+   
 
     uploaded_file=st.file_uploader("Upload an image to identify whether it is a **Cat**, **Dog**, or **Wild Animal**.",type=['jpg','jepg','png'])
 
