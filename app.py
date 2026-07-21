@@ -4,9 +4,15 @@ import streamlit as st
 from PIL import Image
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
+import tensorflow as tf
 
-#st.title("Animal Detection ")
-model=load_model("animal_final.tflite")
+interpreter = tf.lite.Interpreter(model_path="animal_final.tflite")
+interpreter.allocate_tensors()
+
+input_details=interpreter.get_input_datails()
+output_details=interpreter.get_output_datails()
+
+
 
 st.set_page_config(
     page_title="Animal Recognition",
@@ -137,7 +143,10 @@ if page == "🐾 Animal Detection":
         
         img_array=np.expand_dims(img_array, axis = 0)
 
-        prediction=model.predict(img_array)
+        interpreter.set_tensor(input_details[0]['index'],img_array)
+        interpreter.invoke()
+        
+        prediction=interpreter.get_tensor(output_datails[0]['index'])
 
         class_names = ['Cat', 'Dog','Wild Animal']
 
