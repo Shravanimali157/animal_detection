@@ -135,7 +135,7 @@ if page == "🐾 Animal Detection":
     if uploaded_file is not None:
         st.image(uploaded_file)
         
-        img = Image.open(uploaded_file)
+         #img = Image.open(uploaded_file)
 
         img = Image.open(uploaded_file).convert("RGB")
         
