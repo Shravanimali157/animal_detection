@@ -94,7 +94,7 @@ st.sidebar.write("The system accepts an image as input and classifies it into on
 
 
 
-if "3animal" not in st.session_state:
+if "animal" not in st.session_state:
     st.session_state.predicted_animal = None
 
 
@@ -137,18 +137,22 @@ if page == "🐾 Animal Detection":
         
         img = Image.open(uploaded_file)
 
+        img = Image.open(uploaded_file).convert("RGB")
+        
         img=img.resize((128,128))
 
         img_array=image.img_to_array(img)/255.0
         
         img_array=np.expand_dims(img_array, axis = 0)
 
+        img_array = img_array.astype(np.float32)
+
         interpreter.set_tensor(input_details[0]['index'],img_array)
         interpreter.invoke()
         
         prediction=interpreter.get_tensor(output_details[0]['index'])
 
-        class_names = ['Cat', 'Dog','Wild Animal']
+        class_names = ['Cat', 'Dog', 'Wild Animal']
 
 
         predicted_index = np.argmax(prediction)
