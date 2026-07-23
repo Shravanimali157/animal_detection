@@ -4,9 +4,25 @@ import streamlit as st
 from PIL import Image
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
+import os
+import requests
 
-#st.title("Animal Detection ")
 
+
+
+if not os.path.exists("animal_final.keras"):
+    url = "https://drive.google.com/file/d/19xPlYBH4eon515vW8iPBQaGhp5nlak-p/view?usp=sharing"
+
+    response = requests.get(url)
+
+    with open("animal_final.keras", "wb") as f:
+        f.write(response.content)
+
+
+
+
+
+model=load_model("animal_final.keras")
 
 st.set_page_config(
     page_title="Animal Recognition",
