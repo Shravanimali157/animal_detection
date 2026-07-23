@@ -10,19 +10,19 @@ import requests
 
 
 
-if not os.path.exists("animal_final.keras"):
-    url = "https://drive.google.com/file/d/19xPlYBH4eon515vW8iPBQaGhp5nlak-p/view?usp=sharing"
+interpreter = tf.lite.Interpreter( model_path="animal_final.tflite")
 
-    response = requests.get(url)
+interpreter.allocate_tensors()
 
-    with open("animal_final.keras", "wb") as f:
-        f.write(response.content)
+input_details = interpreter.get_input_details()
 
-
+output_details = interpreter.get_output_details()
 
 
 
-model=load_model("animal_final.keras")
+
+
+#model=load_model("animal_final.keras")
 
 st.set_page_config(
     page_title="Animal Recognition",
@@ -104,7 +104,7 @@ st.sidebar.write("The system accepts an image as input and classifies it into on
 
 
 
-if "3animal" not in st.session_state:
+if "animal" not in st.session_state:
     st.session_state.predicted_animal = None
 
 
@@ -145,16 +145,25 @@ if page == "🐾 Animal Detection":
     if uploaded_file is not None:
         st.image(uploaded_file)
         
-        img = Image.open(uploaded_file)
+        #img = Image.open(uploaded_file)
+
+        img = Image.open(image).convert("RGB")
 
         img=img.resize((128,128))
 
         img_array=image.img_to_array(img)/255.0
+
+        mg = img.astype( "float32")/255.0
         
         img_array=np.expand_dims(img_array, axis = 0)
 
-        prediction=model.predict(img_array)
+        interpreter.set_tensor(input_details[0]["index"],img)
+                    
+        interpreter.invoke()
 
+        
+        prediction=interpreter.get_tensor(output_details[0]["index"])
+        
         class_names = ['Cat', 'Dog','Wild Animal']
 
 
